@@ -1,14 +1,7 @@
-import { useState } from "react";
+import { useForm } from "@formspree/react";
 
 function Contact() {
-  const [submitted, setSubmitted] = useState(false);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    setSubmitted(true);
-    event.target.reset();
-  }
+  const [state, handleSubmit] = useForm("xeaoyykl");
 
   return (
     <section className="contact-section" id="contact">
@@ -46,21 +39,21 @@ function Contact() {
 
           <div className="contact-links">
             <a
-             href="mailto:chittapuramharini@gmail.com"
+              href="mailto:chittapuramharini@gmail.com"
               className="contact-link"
             >
               <div className="contact-link-icon">@</div>
 
               <div>
                 <span>EMAIL</span>
-               <strong>chittapuramharini@gmail.com</strong>
+                <strong>chittapuramharini@gmail.com</strong>
               </div>
 
               <span className="contact-link-arrow">↗</span>
             </a>
 
             <a
-             href="https://www.linkedin.com/in/harini-ch-4b1b93341"
+              href="https://www.linkedin.com/in/harini-ch-4b1b93341"
               target="_blank"
               rel="noreferrer"
               className="contact-link"
@@ -69,7 +62,7 @@ function Contact() {
 
               <div>
                 <span>LINKEDIN</span>
-               <strong>View my profile</strong>
+                <strong>View my profile</strong>
               </div>
 
               <span className="contact-link-arrow">↗</span>
@@ -176,15 +169,26 @@ function Contact() {
             ></textarea>
           </div>
 
-          <button type="submit" className="contact-submit">
-            Send Project Enquiry
+          <button
+            type="submit"
+            className="contact-submit"
+            disabled={state.submitting}
+          >
+            {state.submitting ? "Sending..." : "Send Project Enquiry"}
             <span>↗</span>
           </button>
 
-          {submitted && (
+          {state.succeeded && (
             <div className="form-success">
               <span>✓</span>
               Thanks! Your enquiry has been submitted successfully.
+            </div>
+          )}
+
+          {state.errors && state.errors.length > 0 && (
+            <div className="form-success">
+              <span>!</span>
+              Something went wrong. Please try again.
             </div>
           )}
 
